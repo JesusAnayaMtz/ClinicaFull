@@ -1,22 +1,22 @@
 package med.voll.api.domain.paciente;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.domain.direccion.Direccion;
-import med.voll.api.domain.medico.DatosActualizarMedico;
 
-@Entity
-@Table(name = "pacientes")
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Entity
+@Table(name = "pacientes")
 public class Paciente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String email;
@@ -49,5 +49,9 @@ public class Paciente {
 
     public void desactivarPaciente() {
         this.activo = false;
+    }
+
+    public void activarPaciente(){
+        this.activo = true;
     }
 }

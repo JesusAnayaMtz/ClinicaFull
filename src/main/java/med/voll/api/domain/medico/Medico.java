@@ -54,4 +54,8 @@ public class Medico {
     public void desactivarMedico() {
         this.activo = false;
     }
+
+    public void activarMedico() {
+        this.activo = true;
+    }
 }

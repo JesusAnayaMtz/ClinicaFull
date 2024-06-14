@@ -21,7 +21,7 @@ public class MedicoController {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    @PostMapping
+    @PostMapping("/registrar")
     public ResponseEntity<DatosRespuestaMedico> registrarMedico(@RequestBody @Valid DatosRegistroMedico datosRegistroMedico,
                                                                 UriComponentsBuilder uriComponentsBuilder) {
         Medico medico = medicoRepository.save(new Medico(datosRegistroMedico));
@@ -36,13 +36,18 @@ public class MedicoController {
 
     }
 
-    @GetMapping
+    @GetMapping("/listaractivos")
     public ResponseEntity<Page<DatosListadoMedico>> listadoMedicos(@PageableDefault(size = 2) Pageable paginacion) {
 //        return medicoRepository.findAll(paginacion).map(DatosListadoMedico::new);
         return ResponseEntity.ok(medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedico::new));
     }
 
-    @PutMapping
+    @GetMapping("/listardesact")
+    public ResponseEntity<Page<DatosListadoMedico>> listadoMedicosBaja(@PageableDefault(size = 2) Pageable paginacion) {
+        return ResponseEntity.ok(medicoRepository.findByActivoFalse(paginacion).map(DatosListadoMedico::new));
+    }
+
+    @PutMapping("/actualizar")
     @Transactional
     public ResponseEntity actualizarMedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico) {
         Medico medico = medicoRepository.getReferenceById(datosActualizarMedico.id());
@@ -55,11 +60,20 @@ public class MedicoController {
     }
 
     // DELETE LOGICO
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     @Transactional
     public ResponseEntity eliminarMedico(@PathVariable Long id) {
         Medico medico = medicoRepository.getReferenceById(id);
         medico.desactivarMedico();
+        return ResponseEntity.noContent().build();
+    }
+
+    //Activar Medico Que Fue Eliminado
+    @PutMapping("/activar/{id}")
+    @Transactional
+    public ResponseEntity activarMedico(@PathVariable Long id) {
+        Medico medico = medicoRepository.getReferenceById(id);
+        medico.activarMedico();
         return ResponseEntity.noContent().build();
     }
 

@@ -43,6 +43,7 @@ public class Direccion {
         return this;
     }
 
+    //actualizar direccion paciente
     public Direccion actualizarDatos(DatosDireccionPaciente datosDireccionPaciente) {
         this.calle = datosDireccionPaciente.calle();
         this.numero = datosDireccionPaciente.numero();

@@ -10,6 +10,5 @@ public record DatosDireccionPaciente(
         @NotBlank
         String ciudad,
         String numero,
-        String complemento
-) {
+        String complemento) {
 }
