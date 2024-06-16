@@ -1,6 +1,7 @@
 package med.voll.api.domain.consulta;
 
 import jakarta.validation.ValidationException;
+import med.voll.api.domain.consulta.validaciones.ValidacionDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.Paciente;
@@ -8,6 +9,8 @@ import med.voll.api.domain.paciente.PacienteRepository;
 import med.voll.api.infra.errores.ValidacionDeIntegridad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaDeConsultaService {
@@ -21,6 +24,10 @@ public class AgendaDeConsultaService {
     @Autowired
     private ConsultaRepository consultaRepository;
 
+    //implementamos la interface
+    @Autowired
+    List<ValidacionDeConsultas> validadores;
+
     public void agendar(DatosAgendarConsulta datosAgendar){
 
         if (pacienteRepository.findById(datosAgendar.idPaciente()).isPresent()){
@@ -30,6 +37,8 @@ public class AgendaDeConsultaService {
         if (datosAgendar.idMedico()!=null && medicoRepository.existsById(datosAgendar.idMedico())){
             throw new ValidacionDeIntegridad("Este id para el medico no fue encontrado");
         }
+
+        //validaciones
 
         var paciente = pacienteRepository.findById(datosAgendar.idPaciente()).get();
         var medico = seleccionarMedico(datosAgendar);
@@ -48,4 +57,6 @@ public class AgendaDeConsultaService {
 
         return medicoRepository.seleccionarMedicoConEspecilidadEnFecha(datosAgendar.especialidad(), datosAgendar.fecha());
     }
+
+
 }
