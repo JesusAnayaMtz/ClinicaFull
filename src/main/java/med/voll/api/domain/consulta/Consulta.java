@@ -23,11 +23,10 @@ public class Consulta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id")
-    private Paciente idPaciente;
+    private Paciente paciente;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medico_id")
-    private Medico idMedico;
-
+    private Medico medico;
 
     private LocalDateTime fecha;
 }

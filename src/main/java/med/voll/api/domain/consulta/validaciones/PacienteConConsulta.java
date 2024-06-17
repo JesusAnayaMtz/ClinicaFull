@@ -19,7 +19,7 @@ public class PacienteConConsulta implements ValidacionDeConsultas{
 
         var pacienteConsultaActiva = consultaRepository.existsByPacienteIdAndFechaBetween(datosAgendarConsulta.idPaciente(), primerHorario, ultimoHorario);
         if (pacienteConsultaActiva){
-            throw new ValidationException("Ya existe una consulta para este paciente");
+            throw new ValidationException("Ya existe una consulta para este paciente el mismo dia");
         }
     }
 }
